@@ -1,0 +1,31 @@
+{
+	"name": "mesto-project-ff",
+	"version": "1.0.0",
+	"description": "",
+	"main": "index.js",
+	"scripts": {
+		"test": "echo \"Error: no test specified\" && exit 1"
+	},
+	"keywords": [],
+	"author": "",
+	"license": "ISC",
+	"devDependencies": {
+		"@babel/eslint-parser": "^7.24.1",
+		"@gitlab/stylelint-config": "^6.1.0",
+		"eslint": "^9.0.0",
+		"eslint-config-airbnb": "^19.0.4",
+		"eslint-config-prettier": "^9.1.0",
+		"eslint-import-resolver-typescript": "^3.6.1",
+		"eslint-plugin-import": "^2.29.1",
+		"eslint-plugin-perfectionist": "^2.9.0",
+		"eslint-plugin-prettier": "^5.1.3",
+		"prettier": "^3.2.5",
+		"prettier-eslint": "^16.3.0",
+		"prettier-stylelint": "^0.4.2",
+		"stylelint": "^16.2.1",
+		"stylelint-config-recess-order": "^4.6.0",
+		"stylelint-config-standard-scss": "^13.0.0",
+		"stylelint-config-standard-vue": "^1.0.0",
+		"stylelint-prettier": "^5.0.0"
+	}
+}
