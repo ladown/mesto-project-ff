@@ -9,7 +9,7 @@
         "plugin:import/recommended",
         "plugin:perfectionist/recommended-natural"
     ],
-    "plugins": ["perfectionist", "prettier", "pug"],
+    "plugins": ["perfectionist", "prettier"],
     "env": {
         "browser": true,
         "node": true,

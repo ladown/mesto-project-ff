@@ -9,8 +9,6 @@
     "endOfLine": "auto",
     "bracketSameLine": false,
     "htmlWhitespaceSensitivity": "ignore",
-    "pugAttributeSeparator": "none",
-    "pugWrapAttributesThreshold": 1,
     "overrides": [
         {
             "files": [".eslintrc"],

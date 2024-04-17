@@ -1,0 +1,22 @@
+@import './__description/profile__description.css';
+@import './__add-button/profile__add-button.css';
+@import './__edit-button/profile__edit-button.css';
+@import './__info/profile__info.css';
+@import './__title/profile__title.css';
+@import './__image/profile__image.css';
+
+.profile {
+    display: flex;
+    align-items: center;
+    padding: 36px 0;
+    font-family: Inter, Arial, sans-serif;
+    color: #fff;
+}
+
+@media screen and (max-width: 480px) {
+    .profile {
+        flex-direction: column;
+        padding: 43px 0;
+        text-align: center;
+    }
+}
