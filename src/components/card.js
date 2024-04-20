@@ -1,9 +1,18 @@
-import { modals, openModal } from './modal.js';
+import modals from '../scripts/modals.js';
+import { openModal } from './modal.js';
 
-const modalImage = modals.find((modal) => modal.modalElement.classList.contains('popup_type_image'));
+const cardTemplate = document.querySelector('#card-template');
+const modalImageElement = modals.cardImagePreview.modalElement.querySelector('.popup__image');
+const modalCaptionElement = modals.cardImagePreview.modalElement.querySelector('.popup__caption');
+
+const handleImageClick = ({ link, name }) => {
+    modalImageElement.setAttribute('src', link);
+    modalImageElement.setAttribute('alt', name);
+
+    modalCaptionElement.textContent = name;
+};
 
 export const createCard = ({ cardData, deleteCard, likeCard } = {}) => {
-    const cardTemplate = document.querySelector('#card-template');
     const cardElement = cardTemplate.content.querySelector('.places__item.card').cloneNode(true);
     const cardImageElement = cardElement.querySelector('.card__image');
     const cardTitleElement = cardElement.querySelector('.card__title');
@@ -18,15 +27,9 @@ export const createCard = ({ cardData, deleteCard, likeCard } = {}) => {
     cardButtonDeleteElement.addEventListener('click', deleteCard);
     cardButtonLikeElement.addEventListener('click', likeCard);
     cardImageElement.addEventListener('click', () => {
-        const modalImageElement = modalImage.modalElement.querySelector('.popup__image');
-        const modalCaptionElement = modalImage.modalElement.querySelector('.popup__caption');
+        handleImageClick(cardData);
 
-        modalImageElement.setAttribute('src', cardData.link);
-        modalImageElement.setAttribute('alt', cardData.name);
-
-        modalCaptionElement.textContent = cardData.name;
-
-        openModal({ modalElement: modalImage.modalElement });
+        openModal({ modalElement: modals.cardImagePreview.modalElement });
     });
 
     return cardElement;
@@ -36,7 +39,6 @@ export const deleteCard = (event) => {
     const cardButtonDeleteElement = event.target;
     const cardElement = cardButtonDeleteElement.closest('.places__item.card');
 
-    cardButtonDeleteElement.removeEventListener('click', deleteCard);
     cardElement.remove();
 };
 

@@ -33,6 +33,7 @@
         "no-plusplus": ["error", { "allowForLoopAfterthoughts": true }],
         "prettier/prettier": "error",
         "import/prefer-default-export": "off",
+        "no-use-before-define": "off",
         "import/no-cycle": "off",
         "import/no-extraneous-dependencies": ["error", { "devDependencies": true }],
         "import/extensions": ["error", "always", { "ignorePackages": true }],
