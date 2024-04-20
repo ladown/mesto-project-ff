@@ -39,3 +39,24 @@ modals.forEach((modal) => {
         }
     });
 });
+
+const formEditProfileElement = document.querySelector('.popup__form[name="edit-profile"]');
+const profileNameInputElement = formEditProfileElement.querySelector('.popup__input[name="name"]');
+const profileJobInputElement = formEditProfileElement.querySelector('.popup__input[name="description"]');
+const profileNameElement = document.querySelector('.profile__title');
+const profileJobElement = document.querySelector('.profile__description');
+
+profileNameInputElement.value = profileNameElement.textContent;
+profileJobInputElement.value = profileJobElement.textContent;
+
+const handleFormEditProfileSubmit = (event) => {
+    event.preventDefault();
+    const modalElement = event.target.closest('.popup_type_edit');
+
+    profileNameElement.textContent = profileNameInputElement.value;
+    profileJobElement.textContent = profileJobInputElement.value;
+
+    closeModal({ modalElement });
+};
+
+formEditProfileElement.addEventListener('submit', handleFormEditProfileSubmit);
