@@ -51,7 +51,8 @@ profileJobInputElement.value = profileJobElement.textContent;
 
 const handleFormEditProfileSubmit = (event) => {
     event.preventDefault();
-    const modalElement = event.target.closest('.popup_type_edit');
+
+    const modalElement = event.target.closest('.popup');
 
     profileNameElement.textContent = profileNameInputElement.value;
     profileJobElement.textContent = profileJobInputElement.value;
@@ -60,3 +61,23 @@ const handleFormEditProfileSubmit = (event) => {
 };
 
 formEditProfileElement.addEventListener('submit', handleFormEditProfileSubmit);
+
+const formAddCardElement = document.querySelector('.popup__form[name="new-place"]');
+const cardNameInputElement = formAddCardElement.querySelector('.popup__input[name="place-name"]');
+const cardImageInputElement = formAddCardElement.querySelector('.popup__input[name="link"]');
+
+const handleFormAddCardSubmit = (event) => {
+    event.preventDefault();
+
+    const modalElement = event.target.closest('.popup');
+
+    listElement.prepend(
+        createCard({ cardData: { link: cardImageInputElement.value, name: cardNameInputElement.value }, deleteCard }),
+    );
+
+    closeModal({ modalElement });
+
+    event.currentTarget.reset();
+};
+
+formAddCardElement.addEventListener('submit', handleFormAddCardSubmit);
