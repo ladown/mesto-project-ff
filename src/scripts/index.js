@@ -1,8 +1,7 @@
 import { createCard, deleteCard, likeCard } from '../components/card.js';
-import { closeModal, closeModalEsc, openModal } from '../components/modal.js';
+import { closeModal, closeModalEsc, modals, openModal } from '../components/modal.js';
 import '../pages/index.css';
 import initialCards from './cards.js';
-import modals from './modals.js';
 
 const listElement = document.querySelector('.places__list');
 

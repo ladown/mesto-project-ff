@@ -1,5 +1,4 @@
-import modals from '../scripts/modals.js';
-import { openModal } from './modal.js';
+import { modals, openModal } from './modal.js';
 
 const modalImage = modals.find((modal) => modal.modalElement.classList.contains('popup_type_image'));
 
