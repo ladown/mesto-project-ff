@@ -2,6 +2,8 @@ const path = require('path');
 const HtmlWebpackPlugin = require('html-webpack-plugin');
 const MiniCssExtractPlugin = require('mini-css-extract-plugin');
 
+const isProduction = process.argv.includes('mode=production');
+
 module.exports = {
     devServer: {
         compress: true,
@@ -13,7 +15,7 @@ module.exports = {
         main: './src/scripts/index.js',
     },
 
-    mode: 'development',
+    mode: isProduction ? 'production' : 'development',
 
     module: {
         rules: [
