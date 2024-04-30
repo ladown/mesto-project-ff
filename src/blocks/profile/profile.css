@@ -4,6 +4,7 @@
 @import './__info/profile__info.css';
 @import './__title/profile__title.css';
 @import './__image/profile__image.css';
+@import './__image-edit/profile__image-edit.css';
 
 .profile {
     display: flex;

@@ -1,7 +1,9 @@
 @import './__description/card__description.css';
 @import './__image/card__image.css';
+@import './__like-wrapper/card__like-wrapper.css';
 @import './__like-button/card__like-button.css';
 @import './__like-button/_is-active/card__like-button_is-active.css';
+@import './__like-count/card__like-count.css';
 @import './__delete-button/card__delete-button.css';
 @import './__title/card__title.css';
 
@@ -12,4 +14,8 @@
     -webkit-border-radius: 10px;
     -moz-border-radius: 10px;
     border-radius: 10px;
+}
+
+.card:not(.card_personal) .card__delete-button {
+    display: none;
 }

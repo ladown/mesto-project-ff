@@ -1,4 +1,4 @@
-const validationConfig = {
+export const validationConfig = {
     errorClass: 'popup__error_visible',
     formSelector: '.popup__form',
     inactiveButtonClass: 'popup__button_disabled',
@@ -7,11 +7,53 @@ const validationConfig = {
     submitButtonSelector: '.popup__button',
 };
 
+export const isValidImageUrl = async ({ formElement, inputElement }) => {
+    return fetch(inputElement.value, {
+        method: 'HEAD',
+    })
+        .then((ctx) => {
+            const contentType = ctx.headers.get('Content-Type');
+            if (
+                ctx.ok &&
+                !(
+                    contentType === 'image/apng' ||
+                    contentType === 'image/avif' ||
+                    contentType === 'image/gif' ||
+                    contentType === 'image/jpeg' ||
+                    contentType === 'image/jpg' ||
+                    contentType === 'image/png' ||
+                    contentType === 'image/svg+xml' ||
+                    contentType === 'image/webp'
+                )
+            ) {
+                return Promise.reject();
+            }
+
+            return true;
+        })
+        .catch(() => {
+            inputElement.setCustomValidity(inputElement.dataset.errorMessage);
+            showInputError({
+                ...validationConfig,
+                errorMessage: inputElement.validationMessage,
+                formElement,
+                inputElement,
+            });
+            toggleButtonState({
+                ...validationConfig,
+                buttonElement: formElement.elements.submit,
+                inputList: [inputElement],
+            });
+        });
+};
+
 const hasInvalidInput = (inputList) => {
     return inputList.some((inputElement) => !inputElement.checkValidity());
 };
 
-const showInputError = ({ errorClass, errorElement, errorMessage, inputElement, inputErrorClass }) => {
+export const showInputError = ({ errorClass, errorMessage, formElement, inputElement, inputErrorClass }) => {
+    const errorElement = formElement.querySelector(`.${inputElement.id}-error`);
+
     inputElement.classList.add(inputErrorClass);
 
     if (errorElement) {
@@ -20,7 +62,9 @@ const showInputError = ({ errorClass, errorElement, errorMessage, inputElement, 
     }
 };
 
-const hideInputError = ({ errorClass, errorElement, inputElement, inputErrorClass }) => {
+export const hideInputError = ({ errorClass, formElement, inputElement, inputErrorClass }) => {
+    const errorElement = formElement.querySelector(`.${inputElement.id}-error`);
+
     inputElement.classList.remove(inputErrorClass);
 
     if (errorElement) {
@@ -29,19 +73,22 @@ const hideInputError = ({ errorClass, errorElement, inputElement, inputErrorClas
     }
 };
 
-const checkInputValidity = ({ errorClass, errorElement, inputElement, inputErrorClass }) => {
+const checkInputValidity = ({ errorClass, formElement, inputElement, inputErrorClass }) => {
     if (!inputElement.validity.valid) {
-        const errorMessage = inputElement.validity.patternMismatch
-            ? 'Разрешены только латинские, кириллические буквы, знаки дефиса и пробелы'
-            : inputElement.validationMessage;
+        if (inputElement.validity.patternMismatch) {
+            inputElement.setCustomValidity(inputElement.dataset.errorMessage);
+        } else {
+            inputElement.setCustomValidity('');
+        }
 
-        showInputError({ errorClass, errorElement, errorMessage, inputElement, inputErrorClass });
+        showInputError({ errorClass, errorMessage: inputElement.validationMessage, formElement, inputElement, inputErrorClass });
     } else {
-        hideInputError({ errorClass, errorElement, inputElement, inputErrorClass });
+        hideInputError({ errorClass, formElement, inputElement, inputErrorClass });
     }
 };
 
 const setButtonStateDisabled = ({ buttonElement, inactiveButtonClass }) => {
+    buttonElement.classList.remove('is-loading');
     buttonElement.classList.add(inactiveButtonClass);
     buttonElement.disabled = true;
 };
@@ -51,7 +98,7 @@ const removeButtonStateDisabled = ({ buttonElement, inactiveButtonClass }) => {
     buttonElement.disabled = false;
 };
 
-const toggleButtonState = ({ buttonElement, inactiveButtonClass, inputList }) => {
+export const toggleButtonState = ({ buttonElement, inactiveButtonClass, inputList }) => {
     if (buttonElement) {
         if (hasInvalidInput(inputList)) {
             setButtonStateDisabled({ buttonElement, inactiveButtonClass });
@@ -75,10 +122,8 @@ const setInputListener = ({
         toggleButtonState({ buttonElement, inactiveButtonClass, inputList });
 
         inputList.forEach((inputElement) => {
-            const errorElement = formElement.querySelector(`.${inputElement.id}-error`);
-
             inputElement.addEventListener('input', () => {
-                checkInputValidity({ errorClass, errorElement, formElement, inputElement, inputErrorClass });
+                checkInputValidity({ errorClass, formElement, inputElement, inputErrorClass });
                 toggleButtonState({ buttonElement, inactiveButtonClass, inputList });
             });
         });
@@ -124,7 +169,7 @@ export const clearValidation = (
         inputList.forEach((inputElement) => {
             const errorElement = formElement.querySelector(`.${inputElement.id}-error`);
 
-            hideInputError({ errorClass, errorElement, inputElement, inputErrorClass });
+            hideInputError({ errorClass, errorElement, formElement, inputElement, inputErrorClass });
         });
 
         if (buttonElement) {
