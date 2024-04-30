@@ -165,7 +165,7 @@ export const clearValidation = (
         });
 
         if (buttonElement) {
-            toggleButtonState({ buttonElement, inactiveButtonClass, inputList });
+            setButtonStateDisabled({ buttonElement, inactiveButtonClass });
         }
     }
 };
