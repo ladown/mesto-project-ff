@@ -7,7 +7,7 @@ import {
     patchUserData,
     postCard,
 } from '../components/api.js';
-import { createCard, deleteCard, likeCard } from '../components/card.js';
+import { createCard, deleteCallback, deleteCard, likeCard } from '../components/card.js';
 import { closeModal, openModal } from '../components/modal.js';
 import { profileElements, setProfileContent } from '../components/profile.js';
 import { clearValidation, enableValidation, isValidImageUrl } from '../components/validation.js';
@@ -47,7 +47,7 @@ const handleImageClick = ({ link, name }) => {
 };
 
 const renderCard = ({ cardData, method = 'append' }) => {
-    const cardElement = createCard({ cardData, deleteCard, handleImageClick, likeCard, openModal, PERSONAL_USER_ID });
+    const cardElement = createCard({ cardData, deleteCallback, handleImageClick, likeCard, openModal, PERSONAL_USER_ID });
     listElement[method](cardElement);
 };
 

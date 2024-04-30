@@ -5,7 +5,7 @@ import { openModal } from './modal.js';
 const cardTemplate = document.querySelector('#card-template');
 const cardLikeActiveModifier = 'card__like-button_is-active';
 
-export const createCard = ({ cardData, handleImageClick, likeCard, PERSONAL_USER_ID } = {}) => {
+export const createCard = ({ cardData, deleteCallback, handleImageClick, likeCard, PERSONAL_USER_ID } = {}) => {
     const cardId = cardData._id;
 
     const cardElement = cardTemplate.content.querySelector('.places__item.card').cloneNode(true);
@@ -41,13 +41,16 @@ export const createCard = ({ cardData, handleImageClick, likeCard, PERSONAL_USER
         cardElement.setAttribute('data-card-id', cardId);
 
         cardButtonDeleteElement.addEventListener('click', () => {
-            modals.cardDeleteConfirm.modalInputCardId.value = cardId;
-
-            openModal(modals.cardDeleteConfirm.modalElement);
+            deleteCallback(cardId);
         });
     }
 
     return cardElement;
+};
+
+export const deleteCallback = (cardId) => {
+    modals.cardDeleteConfirm.modalInputCardId.value = cardId;
+    openModal(modals.cardDeleteConfirm.modalElement);
 };
 
 export const deleteCard = (event) => {
