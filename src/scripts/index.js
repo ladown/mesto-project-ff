@@ -60,11 +60,12 @@ const handleFormEditProfileSubmit = (event) => {
         .then((userData) => {
             setProfileContent(userData);
 
-            event.submitter.classList.remove(isLoadingModifier);
-
             closeModal(modals.editProfile.modalElement);
         })
-        .catch(handleRequestCatch);
+        .catch(handleRequestCatch)
+        .finally(() => {
+            event.submitter.classList.remove(isLoadingModifier);
+        });
 };
 
 formEditProfileElement.addEventListener('submit', handleFormEditProfileSubmit);
@@ -85,15 +86,16 @@ const handleFormAddCardSubmit = (event) => {
                 .then((cardData) => {
                     renderCard({ cardData, method: 'prepend' });
 
-                    event.submitter.classList.remove(isLoadingModifier);
-
                     closeModal(modals.addCard.modalElement);
 
                     formAddCardElement.reset();
 
                     clearValidation(formAddCardElement);
                 })
-                .catch(handleRequestCatch);
+                .catch(handleRequestCatch)
+                .finally(() => {
+                    event.submitter.classList.remove(isLoadingModifier);
+                });
         }
     });
 };
@@ -108,8 +110,6 @@ const handleFormCardDeleteConfirmSubmit = (event) => {
     deleteCardItem(modals.cardDeleteConfirm.modalInputCardId.value)
         .then(({ message } = {}) => {
             if (message === 'Пост удалён') {
-                event.submitter.classList.remove(isLoadingModifier);
-
                 closeModal(modals.cardDeleteConfirm.modalElement);
 
                 deleteCard({
@@ -119,7 +119,10 @@ const handleFormCardDeleteConfirmSubmit = (event) => {
                 modals.cardDeleteConfirm.modalInputCardId.value = '';
             }
         })
-        .catch(handleRequestCatch);
+        .catch(handleRequestCatch)
+        .finally(() => {
+            event.submitter.classList.remove(isLoadingModifier);
+        });
 };
 
 formCardDeleteConfirmElement.addEventListener('submit', handleFormCardDeleteConfirmSubmit);
@@ -133,8 +136,6 @@ const handleFormUpdateAvatarSubmit = (event) => {
         if (isValidImage) {
             patchUserAvatar({ avatar: updateAvatarInputElement.value })
                 .then((data) => {
-                    event.submitter.classList.remove(isLoadingModifier);
-
                     setProfileContent({ avatar: data.avatar });
 
                     closeModal(modals.updateAvatar.modalElement);
@@ -143,7 +144,10 @@ const handleFormUpdateAvatarSubmit = (event) => {
 
                     clearValidation(formUpdateAvatarElement);
                 })
-                .catch(handleRequestCatch);
+                .catch(handleRequestCatch)
+                .finally(() => {
+                    event.submitter.classList.remove(isLoadingModifier);
+                });
         }
     });
 };
