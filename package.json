@@ -6,7 +6,8 @@
     "scripts": {
         "dev": "webpack serve",
         "build": "webpack --env mode=production",
-        "gh-deploy": "pnpm build && gh-pages -d dist",
+        "predeploy": "pnpm build",
+        "deploy": "gh-pages -d dist",
         "prettier": "prettier \"src/**/*.{css,scss,js,pug}\" --write",
         "eslint": "eslint \"src/**/*.js\" --fix",
         "stylelint": "stylelint \"src/**/*.{css,sass,scss}\" --fix",
