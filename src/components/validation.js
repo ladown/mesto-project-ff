@@ -111,6 +111,7 @@ const setInputListener = ({
 }) => {
     const buttonElement = formElement.querySelector(submitButtonSelector);
     const inputList = Array.from(formElement.querySelectorAll(inputSelector));
+
     if (inputList?.length) {
         toggleButtonState({ buttonElement, inactiveButtonClass, inputList });
 
@@ -133,22 +134,20 @@ export const enableValidation = ({
 } = validationConfig) => {
     const formList = Array.from(document.querySelectorAll(formSelector));
 
-    if (formList.length) {
-        formList.forEach((formElement) => {
-            formElement.addEventListener('submit', (event) => {
-                event.preventDefault();
-            });
-
-            setInputListener({
-                errorClass,
-                formElement,
-                inactiveButtonClass,
-                inputErrorClass,
-                inputSelector,
-                submitButtonSelector,
-            });
+    formList.forEach((formElement) => {
+        formElement.addEventListener('submit', (event) => {
+            event.preventDefault();
         });
-    }
+
+        setInputListener({
+            errorClass,
+            formElement,
+            inactiveButtonClass,
+            inputErrorClass,
+            inputSelector,
+            submitButtonSelector,
+        });
+    });
 };
 
 export const clearValidation = (
