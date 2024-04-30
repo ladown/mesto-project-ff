@@ -65,11 +65,7 @@ export const likeCard = ({ cardButtonLikeElement, cardId, cardLikeCountElement }
         .then((data) => {
             cardLikeCountElement.textContent = data.likes?.length;
 
-            if (cardButtonLikeElement.classList.contains(cardLikeActiveModifier)) {
-                cardButtonLikeElement.classList.remove(cardLikeActiveModifier);
-            } else {
-                cardButtonLikeElement.classList.add(cardLikeActiveModifier);
-            }
+            cardButtonLikeElement.classList.toggle(cardLikeActiveModifier);
         })
         .catch(handleRequestCatch);
 };
