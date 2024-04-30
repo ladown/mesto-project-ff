@@ -1,4 +1,12 @@
-import { deleteCardItem, getCardsData, getUserData, patchUserAvatar, patchUserData, postCard } from '../components/api.js';
+import {
+    deleteCardItem,
+    getCardsData,
+    getUserData,
+    handleRequestCatch,
+    patchUserAvatar,
+    patchUserData,
+    postCard,
+} from '../components/api.js';
 import { createCard, deleteCard, likeCard } from '../components/card.js';
 import { closeModal, openModal } from '../components/modal.js';
 import { profileElements, setProfileContent } from '../components/profile.js';
@@ -48,13 +56,15 @@ const handleFormEditProfileSubmit = (event) => {
 
     event.submitter.classList.add(isLoadingModifier);
 
-    patchUserData({ about: profileJobInputElement.value, name: profileNameInputElement.value }).then((userData) => {
-        setProfileContent(userData);
+    patchUserData({ about: profileJobInputElement.value, name: profileNameInputElement.value })
+        .then((userData) => {
+            setProfileContent(userData);
 
-        event.submitter.classList.remove(isLoadingModifier);
+            event.submitter.classList.remove(isLoadingModifier);
 
-        closeModal(modals.editProfile.modalElement);
-    });
+            closeModal(modals.editProfile.modalElement);
+        })
+        .catch(handleRequestCatch);
 };
 
 formEditProfileElement.addEventListener('submit', handleFormEditProfileSubmit);
@@ -71,17 +81,19 @@ const handleFormAddCardSubmit = (event) => {
 
     isValidImageUrl({ formElement: formAddCardElement, inputElement: cardImageInputElement }).then((isValidImage) => {
         if (isValidImage) {
-            postCard({ link: cardImageInputElement.value, name: cardNameInputElement.value }).then((cardData) => {
-                renderCard({ cardData, method: 'prepend' });
+            postCard({ link: cardImageInputElement.value, name: cardNameInputElement.value })
+                .then((cardData) => {
+                    renderCard({ cardData, method: 'prepend' });
 
-                event.submitter.classList.remove(isLoadingModifier);
+                    event.submitter.classList.remove(isLoadingModifier);
 
-                closeModal(modals.addCard.modalElement);
+                    closeModal(modals.addCard.modalElement);
 
-                formAddCardElement.reset();
+                    formAddCardElement.reset();
 
-                clearValidation(formAddCardElement);
-            });
+                    clearValidation(formAddCardElement);
+                })
+                .catch(handleRequestCatch);
         }
     });
 };
@@ -93,19 +105,21 @@ const handleFormCardDeleteConfirmSubmit = (event) => {
 
     event.submitter.classList.add(isLoadingModifier);
 
-    deleteCardItem(modals.cardDeleteConfirm.modalInputCardId.value).then(({ message } = {}) => {
-        if (message === 'Пост удалён') {
-            event.submitter.classList.remove(isLoadingModifier);
+    deleteCardItem(modals.cardDeleteConfirm.modalInputCardId.value)
+        .then(({ message } = {}) => {
+            if (message === 'Пост удалён') {
+                event.submitter.classList.remove(isLoadingModifier);
 
-            closeModal(modals.cardDeleteConfirm.modalElement);
+                closeModal(modals.cardDeleteConfirm.modalElement);
 
-            deleteCard({
-                target: document.querySelector(`.card[data-card-id="${modals.cardDeleteConfirm.modalInputCardId.value}"]`),
-            });
+                deleteCard({
+                    target: document.querySelector(`.card[data-card-id="${modals.cardDeleteConfirm.modalInputCardId.value}"]`),
+                });
 
-            modals.cardDeleteConfirm.modalInputCardId.value = '';
-        }
-    });
+                modals.cardDeleteConfirm.modalInputCardId.value = '';
+            }
+        })
+        .catch(handleRequestCatch);
 };
 
 formCardDeleteConfirmElement.addEventListener('submit', handleFormCardDeleteConfirmSubmit);
@@ -117,17 +131,19 @@ const handleFormUpdateAvatarSubmit = (event) => {
 
     isValidImageUrl({ formElement: formUpdateAvatarElement, inputElement: updateAvatarInputElement }).then((isValidImage) => {
         if (isValidImage) {
-            patchUserAvatar({ avatar: updateAvatarInputElement.value }).then((data) => {
-                event.submitter.classList.remove(isLoadingModifier);
+            patchUserAvatar({ avatar: updateAvatarInputElement.value })
+                .then((data) => {
+                    event.submitter.classList.remove(isLoadingModifier);
 
-                setProfileContent({ avatar: data.avatar });
+                    setProfileContent({ avatar: data.avatar });
 
-                closeModal(modals.updateAvatar.modalElement);
+                    closeModal(modals.updateAvatar.modalElement);
 
-                formUpdateAvatarElement.reset();
+                    formUpdateAvatarElement.reset();
 
-                clearValidation(formUpdateAvatarElement);
-            });
+                    clearValidation(formUpdateAvatarElement);
+                })
+                .catch(handleRequestCatch);
         }
     });
 };
@@ -156,15 +172,17 @@ Object.keys(modals).forEach((key) => {
 
 enableValidation();
 
-Promise.all([getUserData(), getCardsData()]).then(([userData, cardsData]) => {
-    if (getObjectLength(userData)) {
-        if (userData._id) {
-            PERSONAL_USER_ID = userData._id;
+Promise.all([getUserData(), getCardsData()])
+    .then(([userData, cardsData]) => {
+        if (getObjectLength(userData)) {
+            if (userData._id) {
+                PERSONAL_USER_ID = userData._id;
+            }
+            setProfileContent(userData);
         }
-        setProfileContent(userData);
-    }
 
-    if (cardsData?.length) {
-        cardsData.forEach((cardData) => renderCard({ cardData }));
-    }
-});
+        if (cardsData?.length) {
+            cardsData.forEach((cardData) => renderCard({ cardData }));
+        }
+    })
+    .catch(handleRequestCatch);

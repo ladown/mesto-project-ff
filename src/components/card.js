@@ -1,5 +1,5 @@
 import modals from '../scripts/modals.js';
-import { deleteCardLike, putCardLike } from './api.js';
+import { deleteCardLike, handleRequestCatch, putCardLike } from './api.js';
 import { openModal } from './modal.js';
 
 const cardTemplate = document.querySelector('#card-template');
@@ -14,8 +14,6 @@ export const createCard = ({ cardData, handleImageClick, likeCard, PERSONAL_USER
     const cardButtonDeleteElement = cardElement.querySelector('.card__delete-button');
     const cardButtonLikeElement = cardElement.querySelector('.card__like-button');
     const cardLikeCountElement = cardElement.querySelector('.card__like-count');
-
-    cardElement.setAttribute('data-card-id', cardId);
 
     cardImageElement.setAttribute('src', cardData.link);
     cardImageElement.setAttribute('alt', cardData.name);
@@ -40,6 +38,8 @@ export const createCard = ({ cardData, handleImageClick, likeCard, PERSONAL_USER
     if (cardData.owner._id === PERSONAL_USER_ID) {
         cardElement.classList.add('card_personal');
 
+        cardElement.setAttribute('data-card-id', cardId);
+
         cardButtonDeleteElement.addEventListener('click', () => {
             modals.cardDeleteConfirm.modalInputCardId.value = cardId;
 
@@ -58,8 +58,8 @@ export const deleteCard = (event) => {
 };
 
 export const likeCard = ({ cardButtonLikeElement, cardId, cardLikeCountElement }) => {
-    (cardButtonLikeElement.classList.contains(cardLikeActiveModifier) ? deleteCardLike(cardId) : putCardLike(cardId)).then(
-        (data) => {
+    (cardButtonLikeElement.classList.contains(cardLikeActiveModifier) ? deleteCardLike(cardId) : putCardLike(cardId))
+        .then((data) => {
             cardLikeCountElement.textContent = data.likes?.length;
 
             if (cardButtonLikeElement.classList.contains(cardLikeActiveModifier)) {
@@ -67,6 +67,6 @@ export const likeCard = ({ cardButtonLikeElement, cardId, cardLikeCountElement }
             } else {
                 cardButtonLikeElement.classList.add(cardLikeActiveModifier);
             }
-        },
-    );
+        })
+        .catch(handleRequestCatch);
 };

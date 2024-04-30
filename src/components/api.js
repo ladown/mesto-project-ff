@@ -23,9 +23,7 @@ export const getUserData = async () => {
         headers: {
             ...config.headers,
         },
-    })
-        .then(handleRequestThen)
-        .catch(handleRequestCatch);
+    }).then(handleRequestThen);
 };
 
 export const getCardsData = async () => {
@@ -33,9 +31,7 @@ export const getCardsData = async () => {
         headers: {
             ...config.headers,
         },
-    })
-        .then(handleRequestThen)
-        .catch(handleRequestCatch);
+    }).then(handleRequestThen);
 };
 
 export const patchUserData = async (body) => {
@@ -45,9 +41,7 @@ export const patchUserData = async (body) => {
             ...config.headers,
         },
         method: 'PATCH',
-    })
-        .then(handleRequestThen)
-        .catch(handleRequestCatch);
+    }).then(handleRequestThen);
 };
 
 export const postCard = async (body) => {
@@ -57,9 +51,7 @@ export const postCard = async (body) => {
             ...config.headers,
         },
         method: 'POST',
-    })
-        .then(handleRequestThen)
-        .catch(handleRequestCatch);
+    }).then(handleRequestThen);
 };
 
 export const deleteCardItem = async (cardId) => {
@@ -68,9 +60,7 @@ export const deleteCardItem = async (cardId) => {
             ...config.headers,
         },
         method: 'DELETE',
-    })
-        .then(handleRequestThen)
-        .catch(handleRequestCatch);
+    }).then(handleRequestThen);
 };
 
 export const putCardLike = async (cardId) => {
@@ -79,9 +69,7 @@ export const putCardLike = async (cardId) => {
             ...config.headers,
         },
         method: 'PUT',
-    })
-        .then(handleRequestThen)
-        .catch(handleRequestCatch);
+    }).then(handleRequestThen);
 };
 
 export const deleteCardLike = async (cardId) => {
@@ -90,9 +78,7 @@ export const deleteCardLike = async (cardId) => {
             ...config.headers,
         },
         method: 'DELETE',
-    })
-        .then(handleRequestThen)
-        .catch(handleRequestCatch);
+    }).then(handleRequestThen);
 };
 
 export const patchUserAvatar = async (body) => {
