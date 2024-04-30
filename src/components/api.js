@@ -88,7 +88,5 @@ export const patchUserAvatar = async (body) => {
             ...config.headers,
         },
         method: 'PATCH',
-    })
-        .then(handleRequestThen)
-        .catch(handleRequestCatch);
+    }).then(handleRequestThen);
 };
