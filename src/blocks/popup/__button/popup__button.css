@@ -16,7 +16,7 @@
         background 0.3s;
 }
 
-.popup__button:hover {
+.popup__button:not(.popup__button_disabled):hover {
     cursor: pointer;
     background: rgb(0 0 0 / 80%);
 }

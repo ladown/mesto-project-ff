@@ -1,5 +1,6 @@
 import { createCard, deleteCard, likeCard } from '../components/card.js';
 import { closeModal, openModal } from '../components/modal.js';
+import { clearValidation, enableValidation } from '../components/validation.js';
 import '../pages/index.css';
 import initialCards from './cards.js';
 import modals from './modals.js';
@@ -59,6 +60,8 @@ const handleFormAddCardSubmit = (event) => {
     closeModal(modals.addCard.modalElement);
 
     event.currentTarget.reset();
+
+    clearValidation(document.forms['new-place']);
 };
 
 formAddCardElement.addEventListener('submit', handleFormAddCardSubmit);
@@ -82,3 +85,5 @@ Object.keys(modals).forEach((key) => {
         }
     });
 });
+
+enableValidation();

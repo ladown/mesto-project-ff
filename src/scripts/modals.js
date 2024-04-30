@@ -1,7 +1,11 @@
+import { clearValidation } from '../components/validation.js';
+
 const handleModalEditProfileOpen = (data) => {
     data.forEach(([textElement, inputElement]) => {
         inputElement.value = textElement.textContent;
     });
+
+    clearValidation(document.forms['edit-profile']);
 };
 
 export default {
